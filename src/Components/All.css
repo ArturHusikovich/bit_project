@@ -1,0 +1,19 @@
+.header {
+    border: 2px solid red;
+    height: 50px;
+}
+.navbar {
+    border: 2px solid green;
+    width: 250px;
+    height: 500px;
+}
+.calendar {
+    border: 2px solid blue;
+    width: 200px;
+    height: 200px;
+}
+.main {
+    border: 2px solid yellow;
+    width: 720px;
+    box-sizing: border-box;
+}
