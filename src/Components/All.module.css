@@ -1,0 +1,15 @@
+.main{
+    border: 2px solid tomato;
+}
+.price{
+    background-color: blue;
+    color: white;
+}
+.name{
+    background-color: red;
+    color: white;
+}
+.des{
+    background-color: orange;
+    color: white;
+}
