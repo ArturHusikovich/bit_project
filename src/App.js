@@ -5,9 +5,9 @@ import Product from './Components/Product';
 const App = (props) => {
   return (
     <div className="App">
-      <Product name="Apricot"
-               price="A few drams"
-               description="From sunny Armenia" />
+      <Product name={"Apricot"}
+               price={"4"}
+               description={"From sunny Armenia"} />
     </div>
   );
 }
