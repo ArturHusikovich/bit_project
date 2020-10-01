@@ -5,8 +5,3 @@
   max-width: 1200px;
   text-align: center;
 }
-.wrapper {
-  display: flex;
-  margin-top: 10px;
-  justify-content: space-between;
-}

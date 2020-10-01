@@ -1,13 +1,11 @@
 import React from 'react';
 import './App.css';
-import Product from './Components/Product';
+import ToDo from './Components/ToDo';
 
 const App = (props) => {
   return (
     <div className="App">
-      <Product name={"Apricot"}
-               price={"4"}
-               description={"From sunny Armenia"} />
+      <ToDo />
     </div>
   );
 }

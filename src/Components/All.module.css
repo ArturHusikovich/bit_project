@@ -1,20 +1,11 @@
-.main{
-    border: 2px solid tomato;
-}
-.price{
-    background-color: blue;
+.taskList{
+    background-color: #5cb35c;
     color: white;
-    height: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    font-size: 1.2em;
+    padding-top: 1em;
+    padding-bottom: 1em;
 }
-.name{
-    background-color: red;
-    color: white;
-}
-.des{
-    background-color: orange;
-    color: white;
+.items{
+    margin: 2em 0 2em 5em;
+    text-align: left;
 }
