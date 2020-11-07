@@ -1,6 +1,6 @@
 .taskList{
-    background-color: #5cb35c;
-    color: white;
+    background-color: #eff89c;
+    color: rgb(59, 57, 57);
     font-size: 1.2em;
     padding-top: 1em;
     padding-bottom: 1em;
@@ -8,4 +8,29 @@
 .items{
     margin: 2em 0 2em 5em;
     text-align: left;
+}
+.img{
+    height: 70px;
+    width: auto;
+    box-shadow: 0 0 5px rgb(223, 95, 95);
+    text-align: start;
+    margin-left: 5em;
+}
+.h1{
+    text-align: end;
+    color: slateblue;
+    text-shadow: 0 0 5px rgb(223, 95, 95);
+    padding-right: 2em;
+}
+.row{
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    margin-top: 2em;
+}
+.task{
+    margin: .5em;
+}
+.actionButton{
+    margin: 0.3em;
 }
