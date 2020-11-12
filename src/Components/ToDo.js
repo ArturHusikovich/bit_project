@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styles from './All.module.css';
 import { Container, Row, Col, FormControl, InputGroup, Button} from 'react-bootstrap';
 import Task from './Task';
 import logo from '../Assets/Images/logo.jpg';
 import IdGenerator from '../Assets/common/IdGenerator';
 
-class ToDo extends Component{
+class ToDo extends PureComponent{
     state = {
         tasks: [],
+        selectedTasks: new Set(),
         inputValue: ''
     }
    
@@ -41,6 +42,31 @@ class ToDo extends Component{
         });
     };
 
+    addSelected = (id) => {
+        const selectedTasks = new Set(this.state.selectedTasks);
+        if(selectedTasks.has(id)){
+            selectedTasks.delete(id);
+        }else{
+            selectedTasks.add(id);
+        }
+        
+        this.setState({
+            selectedTasks: selectedTasks
+        })
+    };
+
+    removeRelected = () => {
+        let tasks = [...this.state.tasks];
+        this.state.selectedTasks.forEach((id) => {
+            tasks = tasks.filter((task) => task._id !== id)
+        });
+
+        this.setState({
+            tasks: tasks,
+            selectedTasks: new Set()
+        });
+    };
+
     render(){
         return(
             <Container className={styles.taskList}>
@@ -48,7 +74,6 @@ class ToDo extends Component{
                     <Col md="6"><img className={styles.img} alt='Logo' src={logo}/></Col>
                     <Col md="6"><h1 className={styles.h1}>My ToDo List!</h1></Col>
                 </Row>
-                
                 <Row className='justify-content-center' >
                     <Col sm={10} xs={12} md={8} lg={6} className={styles.row}>
                         <InputGroup className={styles.input}>
@@ -57,7 +82,8 @@ class ToDo extends Component{
                                          aria-describedby="basic-addon2"
                                          onChange={this.changeInputValue}
                                          onKeyDown = {this.handleKeyDown}
-                                         value = {this.state.inputValue} />
+                                         value = {this.state.inputValue} 
+                                         disabled = {!!this.state.selectedTasks.size} />
                             <InputGroup.Append>
                                 <Button variant="outline-primary"
                                         onClick={this.addNewTask}
@@ -68,10 +94,21 @@ class ToDo extends Component{
                         </InputGroup>
                     </Col>
                 </Row>
-
+                <Row className='justify-content-center' >
+                    <Col sm={10} xs={12} md={8} lg={6} className={styles.row}>
+                        <InputGroup className={styles.input}>
+                                <Button variant="outline-danger" onClick={this.removeRelected}
+                                        disabled={!this.state.selectedTasks.size}>
+                                    Remove Selected
+                                </Button>
+                        </InputGroup>
+                    </Col>
+                </Row>
                 <Row className={styles.items}>
                     {this.state.tasks.map((el) => <Col xs={12} sm={6} md={6} lg={6} xl={6} key={el._id}>
-                                                  <Task text={el.text} id={el._id} removeTask={this.removeTask}/>
+                                                  <Task text={el.text} id={el._id} removeTask={this.removeTask}
+                                                                                   addSelected={this.addSelected}
+                                                                                   disabled={!!this.state.selectedTasks.size}/>
                                                   </Col>)}
                 </Row>
             </Container>
