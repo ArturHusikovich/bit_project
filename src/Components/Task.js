@@ -31,7 +31,8 @@ class Task extends PureComponent{
                             
                             <Button variant="warning" 
                                     className={styles.actionButton} 
-                                    disabled={this.props.disabled}>
+                                    disabled={this.props.disabled}
+                                    onClick = {() => this.props.toggleEditTask(this.props.id)}>
                                 <FontAwesomeIcon icon={faEdit} />
                             </Button>
 

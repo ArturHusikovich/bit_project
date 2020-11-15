@@ -1,34 +1,24 @@
 import React, { PureComponent } from 'react';
 import styles from './All.module.css';
-import { Container, Row, Col, FormControl, InputGroup, Button} from 'react-bootstrap';
+import { Container, Row, Col, InputGroup, Button} from 'react-bootstrap';
 import Task from './Task';
 import logo from '../Assets/Images/logo.jpg';
-import IdGenerator from '../Assets/common/IdGenerator';
+import AddTask from './AddTask/AddTask';
+import Confirm from './Confirm/Confirm';
+import EditTask from './EditTask/EditTask';
 
 class ToDo extends PureComponent{
     state = {
         tasks: [],
         selectedTasks: new Set(),
-        inputValue: ''
+        confirmStatus: false,
+        editTaskId: null,
+        editTask: null
     }
-   
-    changeInputValue = (event) => {
-        this.setState({inputValue: event.target.value});
-    };
-    
-    handleKeyDown = (event) => {
-        if(event.key === 'Enter'){
-            this.addNewTask();
-        }
-    };
 
-    addNewTask = () => {
-        let newTask = {
-            _id: IdGenerator(),
-            text: this.state.inputValue
-        };
+    addNewTask = (task) => {
+        const tasks = [task, ...this.state.tasks];
 
-        const tasks = [newTask, ...this.state.tasks];
         this.setState({
             tasks: tasks,
             inputValue: ''
@@ -55,7 +45,7 @@ class ToDo extends PureComponent{
         })
     };
 
-    removeRelected = () => {
+    removeSelected = () => {
         let tasks = [...this.state.tasks];
         this.state.selectedTasks.forEach((id) => {
             tasks = tasks.filter((task) => task._id !== id)
@@ -63,54 +53,86 @@ class ToDo extends PureComponent{
 
         this.setState({
             tasks: tasks,
-            selectedTasks: new Set()
+            selectedTasks: new Set(),
+            confirmStatus: false
         });
     };
+
+    toggleConfirm = () => {
+        this.setState({
+            confirmStatus: !this.state.confirmStatus
+        });
+    }
+
+    toggleEditTask = (id) => {
+        let filtered = this.state.tasks.filter(el => el._id === id);
+
+        this.setState({
+            editTaskId: id,
+            editTask: filtered[0]
+        });
+    }
+
+    onEditTaskSave = (editedTask) => {
+        let editedTasks = this.state.tasks.map(task => task._id !== editedTask._id ? task : editedTask);
+        
+        this.setState({
+            tasks: editedTasks,
+            editTask: null,
+            editTaskId: null
+        });
+    }
 
     render(){
         return(
             <Container className={styles.taskList}>
+
                 <Row>
-                    <Col md="6"><img className={styles.img} alt='Logo' src={logo}/></Col>
-                    <Col md="6"><h1 className={styles.h1}>My ToDo List!</h1></Col>
+                    <Col sm={6}><img className={styles.img} alt='Logo' src={logo}/></Col>
+                    <Col sm={6}><h1 className={styles.h1}>My ToDo List!</h1></Col>
                 </Row>
+
                 <Row className='justify-content-center' >
                     <Col sm={10} xs={12} md={8} lg={6} className={styles.row}>
-                        <InputGroup className={styles.input}>
-                            <FormControl placeholder="Type new task"
-                                         aria-label="Type new task"
-                                         aria-describedby="basic-addon2"
-                                         onChange={this.changeInputValue}
-                                         onKeyDown = {this.handleKeyDown}
-                                         value = {this.state.inputValue} 
-                                         disabled = {!!this.state.selectedTasks.size} />
-                            <InputGroup.Append>
-                                <Button variant="outline-primary"
-                                        onClick={this.addNewTask}
-                                        disabled = {!this.state.inputValue}>
-                                        Add New Task
-                                </Button>
-                            </InputGroup.Append>
-                        </InputGroup>
+                        <AddTask disabled={!!this.state.selectedTasks.size} 
+                                 addNewTask={this.addNewTask} />
                     </Col>
                 </Row>
+
                 <Row className='justify-content-center' >
                     <Col sm={10} xs={12} md={8} lg={6} className={styles.row}>
                         <InputGroup className={styles.input}>
-                                <Button variant="outline-danger" onClick={this.removeRelected}
+                                <Button variant="outline-danger" 
+                                        onClick={this.toggleConfirm}
                                         disabled={!this.state.selectedTasks.size}>
                                     Remove Selected
                                 </Button>
                         </InputGroup>
                     </Col>
                 </Row>
+
                 <Row className={styles.items}>
                     {this.state.tasks.map((el) => <Col xs={12} sm={6} md={6} lg={6} xl={6} key={el._id}>
-                                                  <Task text={el.text} id={el._id} removeTask={this.removeTask}
-                                                                                   addSelected={this.addSelected}
-                                                                                   disabled={!!this.state.selectedTasks.size}/>
+                                                  <Task text={el.text} 
+                                                        id={el._id} 
+                                                        removeTask={this.removeTask}
+                                                        toggleEditTask={this.toggleEditTask}
+                                                        addSelected={this.addSelected}
+                                                        disabled={!!this.state.selectedTasks.size}/>
                                                   </Col>)}
                 </Row>
+
+                { this.state.confirmStatus &&
+                    <Confirm onModalClose={this.toggleConfirm}
+                             onSubmit={this.removeSelected}
+                             />
+                } 
+                { this.state.editTask &&
+                    <EditTask onModalClose={this.toggleEditTask}
+                              onSubmit={this.onEditTaskSave}
+                              task={this.state.editTask}
+                             />
+                } 
             </Container>
         );
     }

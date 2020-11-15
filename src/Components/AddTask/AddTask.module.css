@@ -1,0 +1,13 @@
+.input:hover {
+    box-shadow: 0 0 5px red;;
+}
+.input:focus, .input:active, .input:disabled{
+    outline: none;
+}
+
+/* changeBtn:hover, .changeBtn:disabled, .changeBtn:active, .changeBtn:focus {
+    color: #4d4d4d;
+    background: #f2f2f2;
+    box-shadow: 0 0 5px 1px #ff022c;
+    outline: none;
+  } */
