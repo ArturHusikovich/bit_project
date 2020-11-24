@@ -24,9 +24,9 @@ class Task extends PureComponent{
                 <Card.Body>
                 <input type="checkbox" onClick={this.selectedTask}/>
 
-                    <Card.Title>{this.props.text.slice(0, 10) + '...'}</Card.Title>
+                    <Card.Title>{this.props.title}</Card.Title>
                             <Card.Text>
-                                {this.props.text}
+                                {this.props.description}
                             </Card.Text>
                             
                             <Button variant="warning" 

@@ -12,28 +12,67 @@ class ToDo extends PureComponent{
         tasks: [],
         selectedTasks: new Set(),
         confirmStatus: false,
-        editTaskId: null,
-        editTask: null
+        editTask: null,
+        addTaskModal: false
     }
 
     addNewTask = (task) => {
-        const tasks = [task, ...this.state.tasks];
 
-        this.setState({
-            tasks: tasks,
-            inputValue: ''
-        });
+        fetch(`http://localhost:3001/task`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(task)
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if(data.error) {
+                throw data.error;
+            }
+
+        const tasks = [data, ...this.state.tasks];
+            this.setState({
+                tasks: tasks,
+                addTaskModal: false
+            });
+            
+        })
+        .catch((error) => {
+                console.log("ToDo -> error", error)
+            });
     };
 
     removeTask = (id) => {
+        fetch(`http://localhost:3001/task/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            if(data.error) {
+                throw data.error;
+            }
+
         const newTasks = this.state.tasks.filter(task => task._id !== id);
         this.setState({
-            tasks: newTasks
-        });
+                tasks: newTasks
+            });
+            
+        })
+        .catch((error) => {
+                console.log("ToDo -> error", error)
+            });
+        
+        
     };
 
     addSelected = (id) => {
         const selectedTasks = new Set(this.state.selectedTasks);
+        
         if(selectedTasks.has(id)){
             selectedTasks.delete(id);
         }else{
@@ -46,16 +85,40 @@ class ToDo extends PureComponent{
     };
 
     removeSelected = () => {
-        let tasks = [...this.state.tasks];
-        this.state.selectedTasks.forEach((id) => {
-            tasks = tasks.filter((task) => task._id !== id)
-        });
+        const body = {
+            tasks: [...this.state.selectedTasks] 
+        }
 
-        this.setState({
-            tasks: tasks,
-            selectedTasks: new Set(),
-            confirmStatus: false
-        });
+
+        fetch(`http://localhost:3001/task`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if(data.error) {
+                throw data.error;
+            }
+
+            let tasks = [...this.state.tasks];
+            this.state.selectedTasks.forEach((id) => {
+                tasks = tasks.filter((task) => task._id !== id)
+            });
+    
+            this.setState({
+                tasks: tasks,
+                selectedTasks: new Set(),
+                confirmStatus: false
+            });
+
+        })
+        .catch((error) => {
+                console.log("ToDo -> error", error)
+            });
+
     };
 
     toggleConfirm = () => {
@@ -74,15 +137,64 @@ class ToDo extends PureComponent{
     }
 
     onEditTaskSave = (editedTask) => {
-        let editedTasks = this.state.tasks.map(task => task._id !== editedTask._id ? task : editedTask);
+
+        fetch(`http://localhost:3001/task/${editedTask._id}`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(editedTask)
+        })
+            .then((res) => res.json())
+            .then(response => {
+                if (response.error) {
+                    throw response.error;
+                }
+
+                const tasks = [...this.state.tasks];
+
+                const foundTaskIndex = tasks.findIndex((task) => task._id === editedTask._id);
+                tasks[foundTaskIndex] = response;
         
-        this.setState({
-            tasks: editedTasks,
-            editTask: null,
-            editTaskId: null
-        });
+                this.setState({
+                    tasks: tasks,
+                    editTask: null
+                });
+
+            })
+            .catch((error) => {
+                console.log("ToDo -> error", error)
+            });
     }
 
+    componentDidMount(){
+        fetch(`http://localhost:3001/task`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if(data.error) {
+                throw data.error;
+            }
+
+        this.setState({
+                tasks: data
+            });  
+        })
+        .catch((error) => {
+                console.log("ToDo -> error", error)
+            });
+
+    }
+
+    toggleAddTaskModal = () => {
+        this.setState({
+            addTaskModal: !this.state.addTaskModal
+        });
+    }
     render(){
         return(
             <Container className={styles.taskList}>
@@ -94,14 +206,17 @@ class ToDo extends PureComponent{
 
                 <Row className='justify-content-center' >
                     <Col sm={10} xs={12} md={8} lg={6} className={styles.row}>
-                        <AddTask disabled={!!this.state.selectedTasks.size} 
-                                 addNewTask={this.addNewTask} />
+                        <Button onClick={this.toggleAddTaskModal}
+                                disabled={!!this.state.selectedTasks.size}
+                                variant="outline-primary">
+                            Add New Task
+                        </Button>
                     </Col>
                 </Row>
 
                 <Row className='justify-content-center' >
                     <Col sm={10} xs={12} md={8} lg={6} className={styles.row}>
-                        <InputGroup className={styles.input}>
+                        <InputGroup  className='justify-content-center' >
                                 <Button variant="outline-danger" 
                                         onClick={this.toggleConfirm}
                                         disabled={!this.state.selectedTasks.size}>
@@ -113,8 +228,9 @@ class ToDo extends PureComponent{
 
                 <Row className={styles.items}>
                     {this.state.tasks.map((el) => <Col xs={12} sm={6} md={6} lg={6} xl={6} key={el._id}>
-                                                  <Task text={el.text} 
+                                                  <Task title={el.title} 
                                                         id={el._id} 
+                                                        description={el.description}
                                                         removeTask={this.removeTask}
                                                         toggleEditTask={this.toggleEditTask}
                                                         addSelected={this.addSelected}
@@ -133,6 +249,18 @@ class ToDo extends PureComponent{
                               task={this.state.editTask}
                              />
                 } 
+                { this.state.editTask &&
+                    <EditTask onModalClose={this.toggleEditTask}
+                              onSubmit={this.onEditTaskSave}
+                              task={this.state.editTask}
+                             />
+                } 
+                { this.state.addTaskModal &&
+                    <AddTask onModalClose={this.toggleAddTaskModal}
+                             onSubmit={this.addNewTask}
+                              />
+                        
+                }
             </Container>
         );
     }

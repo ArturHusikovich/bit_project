@@ -1,60 +1,92 @@
 import React, { PureComponent } from 'react';
 import styles from './AddTask.module.css';
-import { FormControl, InputGroup, Button} from 'react-bootstrap';
-import IdGenerator from '../../Assets/common/IdGenerator';
+import { Button, Modal} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 class AddTask extends PureComponent{
     state = {
-        inputValue: ''
+        title: '',
+        description: '',
+        date: new Date()
     }
-   
-    changeInputValue = (event) => {
+
+    dateChange = (date) => {
         this.setState({
-            inputValue: event.target.value
+            date
+        });
+    }
+    
+    changeInputValue = (event) => {
+        const {name, value} = event.target;
+        this.setState({
+            [name]: value
         });
     };
     
-    handleKeyDown = (event) => {
-        if(event.key === 'Enter'){
-            this.sendNewTask();
-        }
-    };
-
     sendNewTask = () => {
+        if(!this.state.title){
+            return;
+        }
+
         let newTask = {
-            _id: IdGenerator(),
-            text: this.state.inputValue
+            title: this.state.title,
+            description: this.state.description
         };
 
-        this.props.addNewTask(newTask);
-
-        this.setState({
-            inputValue: ''
-        });
+        this.props.onSubmit(newTask);
     };
 
     render(){
         return(
-            <>
-            <InputGroup className={styles.input}>
-                <FormControl placeholder="Type new task"
-                             aria-label="Type new task"
-                             aria-describedby="basic-addon2"
-                             onChange={this.changeInputValue}
-                             onKeyDown = {this.handleKeyDown}
-                             value = {this.state.inputValue} 
-                             disabled = {this.props.disabled} 
-                             className= {styles.input}/>
-                    <InputGroup.Append>
-                        <Button variant="outline-primary"
-                                onClick={this.sendNewTask}
-                                disabled = {!this.state.inputValue}>
-                                Add New Task
-                        </Button>
-                    </InputGroup.Append>
-            </InputGroup>
-            </>
+            <Modal show={true} 
+                   onHide={this.props.onModalClose}
+                   backdrop="static"
+                   keyboard={false} >
+
+                <Modal.Header closeButton>
+                   <Modal.Title>Add Your Task</Modal.Title>
+               </Modal.Header>
+
+               <Modal.Body>
+                   <div>
+                   <input type="text" 
+                          onChange={this.changeInputValue}
+                          name='title' 
+                          placeholder='Enter title'
+                          className={styles.input}/>
+                   </div>
+
+                   <div>
+                    <textarea rows='3'
+                              name='description'
+                              onChange={this.changeInputValue}
+                              placeholder='Enter description'
+                              className={styles.input}>
+                    </textarea>
+                    </div>
+
+                    <div>
+                        <DatePicker selected={this.state.date}
+                                    onSelect={this.dateChange}
+                                    className={styles.input} />
+                    </div>
+               </Modal.Body>
+               
+               <Modal.Footer>
+                  <Button variant="secondary" 
+                          onClick={this.props.onModalClose} >
+                  Close
+                  </Button>
+                  
+                  <Button variant="danger" 
+                          onClick={this.sendNewTask}>
+                  Add
+                  </Button>
+               </Modal.Footer>
+            </Modal>
         );
     }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import styles from './EditTask.module.css';
 
 class EditTask extends Component{
     constructor(props){
@@ -12,13 +13,14 @@ class EditTask extends Component{
     }
 
     editTask = (event) => {
+        const {name, value} = event.target;
         this.setState({
-            text: event.target.value
+            [name]: value
         });
-    }
+    };
 
     saveTask = () => {
-        if(!this.state.text){
+        if(!this.state.title){
             return
         };
 
@@ -37,10 +39,25 @@ class EditTask extends Component{
                </Modal.Header>
 
                <Modal.Body>
-                   <input type="text" 
-                          value={this.state.text}
-                          onChange={this.editTask} />
-               </Modal.Body>
+                   <div>
+                        <span>Title</span>
+                        <input type="text" 
+                               value={this.state.title}
+                               onChange={this.editTask}
+                               className={styles.input}
+                               name="title"
+                               />
+                   </div>
+                   <div>
+                        <span>Description</span>
+                        <textarea type="text" 
+                               value={this.state.description}
+                               onChange={this.editTask}
+                               className={styles.input}
+                               name="description">
+                        </textarea>
+                   </div>
+               </Modal.Body> 
                
                <Modal.Footer>
                   <Button variant="secondary" 
@@ -50,7 +67,7 @@ class EditTask extends Component{
                   
                   <Button variant="danger" 
                           onClick={this.saveTask}>
-                  I am sure
+                  Edit
                   </Button>
                </Modal.Footer>
 
