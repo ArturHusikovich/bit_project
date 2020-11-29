@@ -33,7 +33,8 @@ class AddTask extends PureComponent{
 
         let newTask = {
             title: this.state.title,
-            description: this.state.description
+            description: this.state.description,
+            date: this.state.date.toISOString().slice(0, 10)
         };
 
         this.props.onSubmit(newTask);
@@ -71,6 +72,7 @@ class AddTask extends PureComponent{
                     <div>
                         <DatePicker selected={this.state.date}
                                     onSelect={this.dateChange}
+                                    minDate = {new Date()}
                                     className={styles.input} />
                     </div>
                </Modal.Body>

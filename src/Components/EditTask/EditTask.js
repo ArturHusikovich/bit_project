@@ -2,14 +2,18 @@ import React, { Component } from 'react';
 import { Modal, Button} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import styles from './EditTask.module.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 class EditTask extends Component{
     constructor(props){
         super(props);
+        const {date} = props.task;
     
         this.state = {
-          ...props.task
-        };
+          ...props.task,
+          date: date ? new Date(date): new Date()
+        }
     }
 
     editTask = (event) => {
@@ -23,9 +27,19 @@ class EditTask extends Component{
         if(!this.state.title){
             return
         };
+        const editedTask = {
+            ...this.state,
+            date: this.state.date.toISOString().slice(0, 10)
 
-        this.props.onSubmit(this.state)
-    }
+        }
+        this.props.onSubmit(editedTask)
+    };
+
+    dateChange = (date) => {
+        this.setState({
+            date
+        });
+    };
 
      render(){
         return(
@@ -56,6 +70,11 @@ class EditTask extends Component{
                                className={styles.input}
                                name="description">
                         </textarea>
+                   </div>
+                   <div>
+                        <DatePicker selected={this.state.date} 
+                                    onChange={this.dateChange} 
+                                    minDate = {new Date()} />
                    </div>
                </Modal.Body> 
                

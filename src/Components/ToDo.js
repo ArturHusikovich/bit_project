@@ -230,6 +230,8 @@ class ToDo extends PureComponent{
                     {this.state.tasks.map((el) => <Col xs={12} sm={6} md={6} lg={6} xl={6} key={el._id}>
                                                   <Task title={el.title} 
                                                         id={el._id} 
+                                                        date={el.date}
+                                                        created_at={el.created_at}
                                                         description={el.description}
                                                         removeTask={this.removeTask}
                                                         toggleEditTask={this.toggleEditTask}

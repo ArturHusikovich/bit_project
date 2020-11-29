@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import styles from './All.module.css';
 import {Card, Button} from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { DateFormat } from '../Assets/common/DateFormat';
+import PropTypes from 'prop-types';
 
 class Task extends PureComponent{
     state = {
@@ -26,7 +27,9 @@ class Task extends PureComponent{
 
                     <Card.Title>{this.props.title}</Card.Title>
                             <Card.Text>
-                                {this.props.description}
+                                <span>Description: {this.props.description}</span>
+                                <span>Date: {DateFormat(this.props.date)}</span>
+                                <span>Created At: {DateFormat(this.props.created_at)}</span>
                             </Card.Text>
                             
                             <Button variant="warning" 
@@ -49,5 +52,12 @@ class Task extends PureComponent{
     }
 }
 
-        
 export default Task;
+
+Task.propTypes = {
+    description: PropTypes.string,
+    toggleEditTask: PropTypes.func.isRequired,
+    date: PropTypes.string,
+    created_at: PropTypes.string
+
+};
