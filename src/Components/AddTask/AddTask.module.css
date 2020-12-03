@@ -1,0 +1,10 @@
+.input {
+    width: 100%;
+    margin-bottom: 10px;
+}
+.input:hover, .input:disabled, .input:active, .input:focus {
+    color: #4d4d4d;
+    background: #f2f2f2;
+    box-shadow: 0 0 5px 1px #ff022c;
+    outline: none;
+  }
