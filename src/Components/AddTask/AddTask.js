@@ -97,5 +97,5 @@ export default AddTask;
 
 AddTask.propTypes = {
     disabled: PropTypes.bool,
-    addNewTask: PropTypes.func.isRequired
+    addNewTask: PropTypes.func
 };
