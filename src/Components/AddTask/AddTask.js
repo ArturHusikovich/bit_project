@@ -7,10 +7,20 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 class AddTask extends PureComponent{
-    state = {
-        title: '',
-        description: '',
-        date: new Date()
+    constructor(props){
+        super(props);
+    
+        this.state = {
+            title: '',
+            description: '',
+            date: new Date()
+        };
+    
+        this.titleRef = React.createRef(null);
+    }
+    
+    componentDidMount(){
+        this.titleRef.current.focus();
     }
 
     dateChange = (date) => {
@@ -57,7 +67,8 @@ class AddTask extends PureComponent{
                           onChange={this.changeInputValue}
                           name='title' 
                           placeholder='Enter title'
-                          className={styles.input}/>
+                          className={styles.input}
+                          ref={this.titleRef} />
                    </div>
 
                    <div>

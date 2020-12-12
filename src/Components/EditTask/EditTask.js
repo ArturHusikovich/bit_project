@@ -14,6 +14,12 @@ class EditTask extends Component{
           ...props.task,
           date: date ? new Date(date): new Date()
         }
+
+        this.titleRef = React.createRef();
+    }
+
+    componentDidMount(){
+        this.titleRef.current.focus();
     }
 
     editTask = (event) => {
@@ -60,6 +66,7 @@ class EditTask extends Component{
                                onChange={this.editTask}
                                className={styles.input}
                                name="title"
+                               ref={this.titleRef}
                                />
                    </div>
                    <div>

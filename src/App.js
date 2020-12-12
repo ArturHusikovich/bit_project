@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import ToDo from './Components/ToDo';
 import Header from './Components/Header/Header';
+import Footer from './Components/Footer/Footer';
 import About from './Components/About/About';
 import SingleTask from './Components/SingleTask/SingleTask';
 import Contacts from './Components/Contacts/Contacts';
@@ -22,7 +23,8 @@ const App = (props) => {
         <Route path='/404' exact component={NotFound} />
         <Redirect to='/404' /> 
       </Switch>
-     
+
+      <Footer />     
     </div>
   );
 }
