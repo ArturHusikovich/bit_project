@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import styles from './All.module.css';
 import { Container, Row, Col, InputGroup, Button} from 'react-bootstrap';
 import Task from './Task';
-import logo from '../Assets/Images/logo.jpg';
 import AddTask from './AddTask/AddTask';
 import Confirm from './Confirm/Confirm';
 import EditTask from './EditTask/EditTask';
@@ -187,7 +186,6 @@ class ToDo extends PureComponent{
         .catch((error) => {
                 console.log("ToDo -> error", error)
             });
-
     }
 
     toggleAddTaskModal = () => {
@@ -198,11 +196,6 @@ class ToDo extends PureComponent{
     render(){
         return(
             <Container className={styles.taskList}>
-
-                <Row>
-                    <Col sm={6}><img className={styles.img} alt='Logo' src={logo}/></Col>
-                    <Col sm={6}><h1 className={styles.h1}>My ToDo List!</h1></Col>
-                </Row>
 
                 <Row className='justify-content-center' >
                     <Col sm={10} xs={12} md={8} lg={6} className={styles.row}>
