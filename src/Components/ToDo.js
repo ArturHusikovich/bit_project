@@ -51,7 +51,6 @@ class ToDo extends PureComponent{
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
             if(data.error) {
                 throw data.error;
             }
@@ -65,8 +64,6 @@ class ToDo extends PureComponent{
         .catch((error) => {
                 console.log("ToDo -> error", error)
             });
-        
-        
     };
 
     addSelected = (id) => {
@@ -243,13 +240,7 @@ class ToDo extends PureComponent{
                               onSubmit={this.onEditTaskSave}
                               task={this.state.editTask}
                              />
-                } 
-                { this.state.editTask &&
-                    <EditTask onModalClose={this.toggleEditTask}
-                              onSubmit={this.onEditTaskSave}
-                              task={this.state.editTask}
-                             />
-                } 
+                }
                 { this.state.addTaskModal &&
                     <AddTask onModalClose={this.toggleAddTaskModal}
                              onSubmit={this.addNewTask}
