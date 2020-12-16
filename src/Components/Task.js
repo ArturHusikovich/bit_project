@@ -3,7 +3,7 @@ import styles from './All.module.css';
 import {Card, Button} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { DateFormat } from '../Assets/common/DateFormat';
+import { dateFormat } from '../helpers/dateFormat';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -33,8 +33,8 @@ class Task extends PureComponent{
                     </Card.Title>
                             <Card.Text className={styles.item}>
                                 <span>Description: {this.props.description}</span>
-                                <span>Date: {DateFormat(this.props.date)}</span>
-                                <span>Created At: {DateFormat(this.props.created_at)}</span>
+                                <span>Date: {dateFormat(this.props.date)}</span>
+                                <span>Created At: {dateFormat(this.props.created_at)}</span>
                             </Card.Text>
                             
                             <Button variant="warning" 
