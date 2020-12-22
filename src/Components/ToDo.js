@@ -73,49 +73,10 @@ class ToDo extends PureComponent{
         });
     }
 
-    toggleEditTask = (id) => {
-        let filtered = this.props.tasks.filter(el => el._id === id);
-
-        this.setState({
-            editTaskId: id,
-            editTask: filtered[0]
-        });
-    }
-
-    // onEditTaskSave = (editedTask) => {
-
-    //     fetch(`http://localhost:3001/task/${editedTask._id}`, {
-    //         method: 'PUT',
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: JSON.stringify(editedTask)
-    //     })
-    //         .then((res) => res.json())
-    //         .then(response => {
-    //             if (response.error) {
-    //                 throw response.error;
-    //             }
-
-    //             const tasks = [...this.state.tasks];
-
-    //             const foundTaskIndex = tasks.findIndex((task) => task._id === editedTask._id);
-    //             tasks[foundTaskIndex] = response;
-        
-    //             this.setState({
-    //                 tasks: tasks,
-    //                 editTask: null
-    //             });
-
-    //         })
-    //         .catch((error) => {
-    //             console.log("ToDo -> error", error)
-    //         });
-    // }
-
     componentDidMount(){
         this.props.getTasks();
     }
+    
     componentDidUpdate(prevProps){
         if(!prevProps.addTaskStatus && this.props.addTaskStatus){
             this.toggleAddTaskModal();
@@ -129,6 +90,15 @@ class ToDo extends PureComponent{
     toggleAddTaskModal = () => {
         this.setState({
             addTaskModal: !this.state.addTaskModal
+        });
+    }
+
+    toggleEditTask = (id) => {
+        let filtered = this.props.tasks.filter(el => el._id === id);
+
+        this.setState({
+            editTaskId: id,
+            editTask: filtered[0]
         });
     }
 
@@ -197,7 +167,8 @@ class ToDo extends PureComponent{
 const mapStateToProps = (state) => {
     return { 
         tasks: state.tasks,
-        addTaskStatus: state.addTaskStatus
+        addTaskStatus: state.addTaskStatus,
+        editTaskStatus: state.editTaskStatus
     }
 }
 const mapDispatchToProps = {
