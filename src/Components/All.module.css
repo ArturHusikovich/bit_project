@@ -1,19 +1,20 @@
-
 .item{
     display: flex;
     flex-direction: column;
 }
-
 .taskList{
-    background-color: #eff89c;
     color: rgb(59, 57, 57);
     font-size: 1.2em;
     padding-top: 1em;
     padding-bottom: 1em;
 }
 .items{
-    margin: 2em 0 2em 5em;
-    text-align: left;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+.checkedTask{
+    margin-right: 10px;
 }
 .img{
     height: 70px;
@@ -31,6 +32,7 @@
 }
 .task{
     margin: .5em;
+    border: 1px solid #b3bed4;
 }
 .taskChecked{
     margin: .5em;

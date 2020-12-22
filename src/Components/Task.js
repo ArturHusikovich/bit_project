@@ -24,9 +24,9 @@ class Task extends PureComponent{
             <div className={this.state.checked ? styles.taskChecked : styles.task}>
             <Card>
                 <Card.Body>
-                <input type="checkbox" onClick={this.selectedTask}/>
-
+                
                     <Card.Title>
+                        <input type="checkbox" onClick={this.selectedTask} className={styles.checkedTask}/>
                         <Link to={`/task/${this.props.id}`}>
                         {this.props.title}
                         </Link>
