@@ -47,7 +47,7 @@ const defaultState = {
 
         case "EDIT_TASK": {
             const foundTaskIndex = state.tasks.findIndex((task) => task._id === action.editedTask._id);
-            const newTasks = [state.tasks[foundTaskIndex] = action.editedTask]
+            const newTasks = [...state.tasks, state.tasks[foundTaskIndex] = action.editedTask]
             return {
                 ...state,
                 tasks: newTasks,
