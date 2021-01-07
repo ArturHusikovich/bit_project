@@ -6,56 +6,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'react-bootstrap';
 import EditTask from '../EditTask/EditTask';
+import { connect } from 'react-redux';
+import { getSingleTask, removeTask } from '../../store/actions';
 
 class SingleTask extends PureComponent{
     state = {
-        task: null,
         openEditModal: false
     };
 
     componentDidMount(){
-        const taskId =this.props.match.params.id; 
-
-        fetch(`http://localhost:3001/task/${taskId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            if(data.error) {
-                throw data.error;
-            }
-
-        this.setState({
-                task: data
-            });  
-        })
-        .catch((error) => {
-                console.log("ToDo -> error", error)
-            });
+        const taskId = this.props.match.params.id; 
+        this.props.getSingleTask(taskId);
     }
 
-    removeTask = () => {
-        const taskId = this.props.match.params.id;
-
-        fetch(`http://localhost:3001/task/${taskId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            if(data.error) {
-                throw data.error;
-            }
-            this.props.history.push('/');            
-        })
-        .catch((error) => {
-                console.log("ToDo -> error", error)
+    componentDidUpdate(prevProps){
+        if (!prevProps.editTaskStatus && this.props.editTaskStatus) {
+            this.setState({
+                openEditModal: false
             });
+        }
     }
 
     toggleEditTask = () => {
@@ -63,35 +32,10 @@ class SingleTask extends PureComponent{
             openEditModal: !this.state.openEditModal
         });
     }
-
-    onEditTaskSave = (editedTask) => {
-        fetch(`http://localhost:3001/task/${editedTask._id}`, {
-            method: 'PUT',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(editedTask)
-        })
-            .then((res) => res.json())
-            .then(response => {
-                if (response.error) {
-                    throw response.error;
-                }
-        
-                this.setState({
-                    task: response,
-                    openEditModal: false
-                });
-
-            })
-            .catch((error) => {
-                console.log("ToDo -> error", error)
-            });
-
-    }
  
     render(){
-        const {task} = this.state;
+        const {task} = this.props;
+        const historyPush = this.props.history.push;
 
       return(
       <div>
@@ -103,15 +47,13 @@ class SingleTask extends PureComponent{
 
                         <Button variant="warning" 
                                 className={styles.actionButton} 
-                                onClick = {this.toggleEditTask}
-                                >
+                                onClick = {this.toggleEditTask} >
                                 <FontAwesomeIcon icon={faEdit} />
                         </Button>
 
                         <Button variant="danger" 
                                 className={styles.actionButton} 
-                                onClick = {this.removeTask}
-                                >
+                                onClick = {()=>this.props.removeTask(task._id, "single", historyPush)} >
                             <FontAwesomeIcon icon={faTrash} />
                         </Button>
                     </div> 
@@ -119,16 +61,25 @@ class SingleTask extends PureComponent{
             
           { this.state.openEditModal &&
                     <EditTask onModalClose={this.toggleEditTask}
-                              onSubmit={this.onEditTaskSave}
-                              task={this.state.task}
-                             />
-                } 
-          
+                              task={this.props.task} 
+                              from = "single" />
+                }  
       </div>
       )
   }
 }
 
-export default SingleTask;
+const mapStateToProps = (state) => {
+    return {
+        task: state.task,
+        editTaskStatus: state.editTaskStatus
+    }
+}
+const mapDispatchToProps = {
+    getSingleTask: getSingleTask,
+    removeTask: removeTask
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleTask);
 
 
