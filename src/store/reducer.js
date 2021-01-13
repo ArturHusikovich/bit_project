@@ -56,7 +56,7 @@ const defaultState = {
                   task: action.editedTask,
                   loading: false,
                   editTaskStatus: true,
-                  successMessage: 'Task is successfully edited!',
+                  successMessage: 'Task successfully edited!',
                 }
               }
               else {
@@ -66,7 +66,7 @@ const defaultState = {
                 return {
                     ...state,
                     tasks: tasks,
-                    successMessage: "Task is successfully edited!",
+                    successMessage: "Task successfully edited!",
                     editTaskStatus: true,
                     loading: false
                 }
@@ -111,9 +111,38 @@ const defaultState = {
                   ...state,
                   task: action.task,
                   loading: false,
-                  successMessage: 'Single task is here!',
               }
           }
+
+        case "CHANGE_TASK_STATUS": {
+          let message;
+          if(action.editedTask.status === 'done'){
+            message = 'Congratulations, the task completed!';
+          } else {
+            message = 'The task is active now!'
+          }
+
+          if(action.from === 'single'){
+            return{
+              ...state,
+              task: action.editedTask,
+              loading: false,
+              editTaskStatus: true,
+              successMessage: message
+            }
+          } else {
+            const tasks = [...state.tasks];
+            const foundTaskIndex = tasks.findIndex((task) => task._id === action.editedTask._id);
+                tasks[foundTaskIndex] = action.editedTask;
+                return {
+                    ...state,
+                    tasks: tasks,
+                    successMessage: "Task successfully edited!",
+                    editTaskStatus: true,
+                    loading: false
+                }
+          }
+        }
 
         default: return state
     }

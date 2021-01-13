@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     margin: 2em auto;
+    height: 300px;
 }
 .item{
     margin-bottom: 1em;

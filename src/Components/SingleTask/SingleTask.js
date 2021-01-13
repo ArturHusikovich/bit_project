@@ -3,11 +3,11 @@ import styles from './SingleTask.module.css';
 import Spinner from '../Spinner/Spinner';
 import { dateFormat } from '../../helpers/dateFormat';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit, faCheck, faHistory } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'react-bootstrap';
 import EditTask from '../EditTask/EditTask';
 import { connect } from 'react-redux';
-import { getSingleTask, removeTask } from '../../store/actions';
+import { getSingleTask, removeTask, changeTaskStatus } from '../../store/actions';
 
 class SingleTask extends PureComponent{
     state = {
@@ -43,9 +43,23 @@ class SingleTask extends PureComponent{
                     <div className={styles.singleTask}>
                         <p>Title: {task.title}</p>
                         <p>Description: {task.description}</p>
+                        <p>Status: {task.status}</p>
                         <p>Date: {dateFormat(task.date)}</p>
 
-                        <Button variant="warning" 
+                        {task.status === "active" ?
+                            <Button variant="success" 
+                                    className={styles.actionButton}
+                                    onClick = {()=> this.props.changeTaskStatus(task._id, {status: 'done'}, 'single')} >
+                            <FontAwesomeIcon icon={faCheck} />
+                            </Button> :
+                            <Button variant="warning" 
+                                    className={styles.actionButton}
+                                    onClick = {()=> this.props.changeTaskStatus(task._id, {status: 'active'},'single')} >
+                            <FontAwesomeIcon icon={faHistory} />
+                            </Button>
+                            }
+
+                        <Button variant="info" 
                                 className={styles.actionButton} 
                                 onClick = {this.toggleEditTask} >
                                 <FontAwesomeIcon icon={faEdit} />
@@ -77,7 +91,8 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = {
     getSingleTask: getSingleTask,
-    removeTask: removeTask
+    removeTask: removeTask,
+    changeTaskStatus: changeTaskStatus
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleTask);

@@ -11,7 +11,7 @@
 .items{
     margin: 0 auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 .checkedTask{
     margin-right: 10px;
@@ -23,7 +23,6 @@
     text-align: start;
     margin-left: 5em;
 }
-
 .row{
     display: flex;
     justify-content: space-around;

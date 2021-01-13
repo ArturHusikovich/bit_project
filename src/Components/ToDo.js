@@ -7,7 +7,7 @@ import Confirm from './Confirm/Confirm';
 import EditTask from './EditTask/EditTask';
 import Search from './Search/Search';
 import { connect } from 'react-redux';
-import { getTasks, addTask, removeTask, editTask, removeSelected } from '../store/actions';
+import { getTasks, addTask, removeTask, editTask, removeSelected, changeTaskStatus } from '../store/actions';
 
 class ToDo extends PureComponent{
     state = {
@@ -82,13 +82,14 @@ class ToDo extends PureComponent{
         return(
             <Container className={styles.taskList}>
 
-                <Row className='justify-content-center' >
-                    <Col sm={10} >
-                        <Search />
-                    </Col>
+                <Row className={styles.searchRow}>
+                    <Col sm={12}>
+                      <Search />
+                    </Col>     
                 </Row>
+            
 
-                <Row className='justify-content-center' >
+                <Row className='justify-content-center'>
                     <Col sm={10} xs={12} md={8} lg={6} className={styles.row}>
                         <Button onClick={this.toggleAddTaskModal}
                                 disabled={!!this.state.selectedTasks.size}
@@ -111,13 +112,15 @@ class ToDo extends PureComponent{
                 </Row>
 
                 <Row className={styles.items}>
-                    {this.props.tasks.map((el) => <Col key={el._id}>
+                    {this.props.tasks.map((el) => <Col key={el._id} xs={12} sm={6} md={4} lg={3} xl={3}>
                                                   <Task title={el.title} 
                                                         id={el._id} 
                                                         date={el.date}
                                                         created_at={el.created_at}
                                                         description={el.description}
+                                                        status={el.status}
                                                         removeTask={this.props.removeTask}
+                                                        changeTaskStatus={this.props.changeTaskStatus}
                                                         toggleEditTask={this.toggleEditTask}
                                                         addSelected={this.addSelected}
                                                         disabled={!!this.state.selectedTasks.size}/>
@@ -158,6 +161,7 @@ const mapDispatchToProps = {
     addTask: addTask,
     removeTask: removeTask,
     editTask: editTask,
-    removeSelected: removeSelected
+    removeSelected: removeSelected,
+    changeTaskStatus: changeTaskStatus
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ToDo);

@@ -1,0 +1,16 @@
+.main{
+    max-width: 1200px;
+    text-align: center;
+}
+.navbar{
+    display: flex;
+    flex-direction: column;
+}
+.searchBtn{
+    background-image: linear-gradient(to right, #fbc2eb 0%, #a6c1ee 51%, #fbc2eb 100%);
+    border: none;
+    color: #000;
+    text-align: center;
+    box-shadow: 0 0 30px #fbc2eb;
+    margin-bottom: 20px;
+}

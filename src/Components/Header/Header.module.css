@@ -3,13 +3,15 @@
 }
 .row{
     background-color: #000;
-    height: 100px;
+    height: 130px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: nowrap;
 }
 .col{
+    text-align: center;
+}
+.colNav{
     text-align: center;
 }
 .img{
@@ -51,23 +53,20 @@
     .h1{
         font-size: 1.3em;
     }
- }
-@media (min-width: 768px) { 
-    .h1{
-        font-size: 2em;
-    }
     .toggleBtn{
         background-color: #b3bed4;
         opacity: .7;
         margin: 0 auto;
+        font-size: 12px;
     }
-    .navbar{
-        top: 0;
+    .colNav{
+        z-index: 1000;
     }
-    /* .collapse{
-        border: 2px solid red;
-    } */
-
+ }
+@media (min-width: 768px) { 
+    .h1{
+        font-size: 2em;
+    }   
  }
  @media (min-width: 992px) { 
     .h1{

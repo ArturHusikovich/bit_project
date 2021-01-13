@@ -98,3 +98,17 @@ export function getSingleTask(taskId){
         });
     }
 }
+
+export function changeTaskStatus(id, data, from){
+    return (dispatch) => {
+        dispatch({type: 'LOADING'});
+
+        request(`http://localhost:3001/task/${id}`, 'PUT', data)
+        .then(res =>{
+            dispatch({type: 'CHANGE_TASK_STATUS', editedTask: res, from});
+        })
+        .catch(err =>{
+            dispatch({type: 'ERROR', errorMessage: err.message});
+        });
+    }
+}
