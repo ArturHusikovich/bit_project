@@ -1,7 +1,9 @@
 import request from '../helpers/request';
 
+const apiUrl = process.env.REACT_APP_URL;
+
 export function getTasks(data = {}){
-    let url = 'http://localhost:3001/task';
+    let url = `${apiUrl}/task`;
     let query = '?';
     
     for(let key in data){
@@ -30,7 +32,7 @@ export function addTask(task){
     return (dispatch) => {
         dispatch({type: 'LOADING'});
 
-        request('http://localhost:3001/task', 'POST', task)
+        request(`${apiUrl}/task`, 'POST', task)
         .then(res =>{
             dispatch({type: 'ADD_TASK', task: res});
         })
@@ -44,7 +46,7 @@ export function removeTask(id, from="tasks", redirect){
     return (dispatch) => {
         dispatch({type: 'LOADING'});
 
-        request(`http://localhost:3001/task/${id}`, 'DELETE')
+        request(`${apiUrl}/task/${id}`, 'DELETE')
         .then(res =>{
             dispatch({type: 'REMOVE_TASK', id, from});
             if(from==="single"){
@@ -61,7 +63,7 @@ export function editTask(editedTask, from){
     return (dispatch) => {
         dispatch({type: 'LOADING'});
 
-        request(`http://localhost:3001/task/${editedTask._id}`, 'PUT', editedTask)
+        request(`${apiUrl}/task/${editedTask._id}`, 'PUT', editedTask)
         .then(res =>{
             dispatch({type: 'EDIT_TASK', editedTask: res, from});
         })
@@ -75,7 +77,7 @@ export function removeSelected(taskIds){
     return (dispatch) => {
         dispatch({type: 'LOADING'});
 
-        request(`http://localhost:3001/task`, 'PATCH', {tasks: taskIds})
+        request(`${apiUrl}/task`, 'PATCH', {tasks: taskIds})
         .then(res =>{
             dispatch({type: 'REMOVE_SELECTED_TASKS', taskIds});
         })
@@ -89,7 +91,7 @@ export function getSingleTask(taskId){
     return (dispatch) => {
         dispatch({type: 'LOADING'});
 
-        request(`http://localhost:3001/task/${taskId}`)
+        request(`${apiUrl}/task/${taskId}`)
         .then(res =>{
             dispatch({type: 'GET_SINGLE_TASK', task: res});
         })
@@ -103,7 +105,7 @@ export function changeTaskStatus(id, data, from){
     return (dispatch) => {
         dispatch({type: 'LOADING'});
 
-        request(`http://localhost:3001/task/${id}`, 'PUT', data)
+        request(`${apiUrl}/task/${id}`, 'PUT', data)
         .then(res =>{
             dispatch({type: 'CHANGE_TASK_STATUS', editedTask: res, from});
         })
