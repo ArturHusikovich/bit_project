@@ -3,7 +3,7 @@ import styles from './NotFound.module.css';
 
 const NotFound = (props) => {
     return (
-        <div>
+        <div className={styles.container}>
             This is 404 page!
         </div>
     )

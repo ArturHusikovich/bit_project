@@ -84,6 +84,8 @@ const Search = (props) => {
 
     const [search, setSearch] = useState("");
 
+    const [filterToggle, setFilterToggle] = useState(false);
+
     const [dates, setDates] = useState({
         create_lte: null,
         create_gte: null,
@@ -106,10 +108,30 @@ const Search = (props) => {
         props.getTasks(data);
     };
 
+    const filterDates = dateOptions.map((item, index) => {
+        return (
+            <div key={index}>
+                <span>{item.label}</span>
+                <DatePicker selected={dates[item.value]}
+                            onChange={(date) => {
+                                setDates({
+                                    ...dates,
+                                    [item.value]: date
+                                });
+                            }} />
+            </div>
+        )
+    })
+
     return (
-        <>
-            <Navbar bg="light" expand="lg">
-                <Navbar.Brand>Search, sort or filter the tasks!</Navbar.Brand>
+        <div className={styles.main}>
+            <Button onClick={()=>setFilterToggle(!filterToggle)}
+                    className={styles.searchBtn}>
+                Search, sort or filter the tasks!
+            </Button>
+
+            {filterToggle&&
+                <Navbar bg="light" expand="lg" className={styles.navbar}>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
@@ -152,26 +174,17 @@ const Search = (props) => {
                         </Button>
                     </Form>
 
-                </Navbar.Collapse>
-            </Navbar>
+                    <div>{filterDates}</div>
 
-            {   dateOptions.map((item, index) => {
-                    return (
-                        <div key={index}>
-                            <span>{item.label}</span>
-                            <DatePicker selected={dates[item.value]}
-                                        onChange={(date) => {
-                                            setDates({
-                                                ...dates,
-                                                [item.value]: date
-                                            });
-                                        }} />
-                        </div>
-                    )
-                })
+                </Navbar.Collapse>
+               </Navbar>
+               
+
+        
+
             }
-            
-        </>
+                        
+        </div>
     )
 }
 

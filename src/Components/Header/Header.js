@@ -11,7 +11,7 @@ const Header = (props) => {
             <Row className={styles.row}>
                 <Col className={styles.col}><img className={styles.img} alt='Logo' src={logo}/></Col>
                 
-                <Col className={styles.col}>
+                <Col className={styles.colNav}>
                     <Navbar collapseOnSelect expand="lg" variant="light" className={styles.navbar}>
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" className={styles.toggleBtn}/>
                         <Navbar.Collapse id="responsive-navbar-nav" className={styles.collapse}>
