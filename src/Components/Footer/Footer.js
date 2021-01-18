@@ -6,10 +6,9 @@ const Footer = (props) => {
     return (
         <div className={styles.footer}>
             <div className={styles.rowTop}>
-            <span>Github </span>
             <a href="https://github.com/ArturHusikovich"
                target="_blank"
-               rel="noopener noreferrer"> https://github.com/ArturHusikovich</a>            
+               rel="noopener noreferrer"><span>Github </span></a>            
             </div>
             <div className={styles.rowBtn}>
                 <div className={styles.left}>

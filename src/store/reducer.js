@@ -8,7 +8,6 @@ const defaultState = {
     removeTasksSuccess: false,
     removeTaskSuccess: false,
     task: null,
-    contact: null
   };
 
   export const reducer = (state = defaultState, action) => {
@@ -149,7 +148,6 @@ const defaultState = {
           return {
             ...state,
             successMessage: "Contacts are sent!",
-            contact: action.contacts,
             loading: false
           }
         }
