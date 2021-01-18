@@ -178,12 +178,7 @@ const Search = (props) => {
 
                 </Navbar.Collapse>
                </Navbar>
-               
-
-        
-
-            }
-                        
+            }           
         </div>
     )
 }

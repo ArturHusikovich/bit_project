@@ -34,6 +34,7 @@ const App = (props) => {
         <Route path='/task/:id' exact component={SingleTask} />
         <Route path='/contacts' exact  component={Contacts} />
         <Route path='/404' exact component={NotFound} />
+        <Route path='/github' exact component={NotFound} />
         <Redirect to='/404' /> 
       </Switch>
 

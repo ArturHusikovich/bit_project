@@ -6,6 +6,7 @@ import { faTrash, faEdit, faCheck, faHistory } from '@fortawesome/free-solid-svg
 import { dateFormat } from '../helpers/dateFormat';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { textFormat } from '../helpers/textFormat';
 
 class Task extends PureComponent{
     state = {
@@ -27,12 +28,12 @@ class Task extends PureComponent{
                 
                     <Card.Title>
                         <input type="checkbox" onClick={this.selectedTask} className={styles.checkedTask}/>
-                        <Link to={`/task/${this.props.id}`}>
-                        {this.props.title}
+                        <Link to={`/task/${this.props.id}`} className={styles.title}>
+                        {textFormat(this.props.title, 25)}
                         </Link>
                     </Card.Title>
                             <Card.Text className={styles.item}>
-                                <span>Description: {this.props.description}</span>
+                                <span>Description: {textFormat(this.props.description, 50)}</span>
                                 <span>Date: {dateFormat(this.props.date)}</span>
                                 <span>Created At: {dateFormat(this.props.created_at)}</span>
                                 <span>Status: {this.props.status}</span>

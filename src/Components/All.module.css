@@ -1,6 +1,11 @@
 .item{
     display: flex;
     flex-direction: column;
+    font-size: 14px;
+}
+.title{
+    color: rgb(182, 63, 182);
+    font-size: 16px;
 }
 .taskList{
     color: rgb(59, 57, 57);
