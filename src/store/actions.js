@@ -114,3 +114,18 @@ export function changeTaskStatus(id, data, from){
         });
     }
 }
+
+export function sendContacts(data){
+    return (dispatch) => {
+        dispatch({type: 'LOADING'});
+
+        request(`${apiUrl}/form`, 'POST', data)
+        .then(res =>{
+            console.log(res);
+            dispatch({type: 'SEND_CONTACTS', contacts: res});
+        })
+        .catch(err =>{
+            dispatch({type: 'ERROR', errorMessage: err.message});
+        });
+    }
+}

@@ -7,7 +7,8 @@ const defaultState = {
     loading: false,
     removeTasksSuccess: false,
     removeTaskSuccess: false,
-    task: null
+    task: null,
+    contact: null
   };
 
   export const reducer = (state = defaultState, action) => {
@@ -44,7 +45,7 @@ const defaultState = {
                 ...state,
                 tasks: newTasks,
                 addTaskStatus: true,
-                successMessage: "Task is successfully added!",
+                successMessage: "Task added successfully!",
                 loading: false
             }
         }
@@ -56,7 +57,7 @@ const defaultState = {
                   task: action.editedTask,
                   loading: false,
                   editTaskStatus: true,
-                  successMessage: 'Task successfully edited!',
+                  successMessage: 'Task edited successfully!',
                 }
               }
               else {
@@ -66,7 +67,7 @@ const defaultState = {
                 return {
                     ...state,
                     tasks: tasks,
-                    successMessage: "Task successfully edited!",
+                    successMessage: "Task edited successfully!",
                     editTaskStatus: true,
                     loading: false
                 }
@@ -79,7 +80,7 @@ const defaultState = {
                     task: null,
                     loading: false,
                     removeTaskSuccess: true,
-                    successMessage: 'Task is successfully removed!',
+                    successMessage: 'Task removed successfully!',
                   }
                 } else {
                     const newTasks = state.tasks.filter(task => task._id !== action.id);
@@ -87,7 +88,7 @@ const defaultState = {
                     return {
                         ...state,
                         tasks: newTasks,
-                        successMessage: "Task is successfully removed!",
+                        successMessage: "Task removed successfully!",
                         loading: false
                     }
         } }
@@ -102,7 +103,7 @@ const defaultState = {
               tasks: tasks,
               loading: false,
               removeTasksSuccess: true,
-              successMessage: 'Tasks are successfully removed!',
+              successMessage: 'Tasks removed successfully!',
             }
           }
         
@@ -137,10 +138,19 @@ const defaultState = {
                 return {
                     ...state,
                     tasks: tasks,
-                    successMessage: "Task successfully edited!",
+                    successMessage: message,
                     editTaskStatus: true,
                     loading: false
                 }
+          }
+        }
+
+        case "SEND_CONTACTS": {
+          return {
+            ...state,
+            successMessage: "Contacts are sent!",
+            contact: action.contacts,
+            loading: false
           }
         }
 

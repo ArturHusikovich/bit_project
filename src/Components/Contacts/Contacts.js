@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import styles from './Contacts.module.css';
+import { connect } from 'react-redux';
+import { sendContacts } from '../../store/actions';
 
 const Contacts = (props) => {
     const [values, setValues] = useState({ name: '',
                                            email: '',
-                                           phone: '',
                                            message: ''
                                          });
 
@@ -17,8 +18,9 @@ const Contacts = (props) => {
         })
     }
 
-    const sendMessage = () => {
+    const submit = () => {
         console.log(values);
+        props.sendContacts(values);
         setValues({name: '',
                    email: '',
                    phone: '',
@@ -41,22 +43,28 @@ const Contacts = (props) => {
                    placeholder="Email for contact"
                    className={styles.item} />
 
-            <input type="phone"
-                   name="phone"
-                   onChange={changeInput}
-                   value={values.phone}
-                   placeholder="Telephone"
-                   className={styles.item} />
-
             <textarea name="message"
                       onChange={changeInput}
                       value={values.message}
                       className={styles.item}
                       placeholder="Type tour message"></textarea>
 
-            <button onClick={sendMessage}> Send Message </button>
+            <button onClick={submit}> Send Message </button>
+
+            <div>
+                {props.contact}
+            </div>
         </div>
     )
 }
 
-export default Contacts;
+const mapStateToProps = (state) => {
+    return {
+        contact: state.contact
+    }
+}
+const mapDispatchToProps = {
+    sendContacts: sendContacts
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Contacts);
