@@ -19,11 +19,9 @@ const Contacts = (props) => {
     }
 
     const submit = () => {
-        console.log(values);
         props.sendContacts(values);
         setValues({name: '',
                    email: '',
-                   phone: '',
                    message: ''})
     }
 
@@ -51,20 +49,12 @@ const Contacts = (props) => {
 
             <button onClick={submit}> Send Message </button>
 
-            <div>
-                {props.contact}
-            </div>
         </div>
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        contact: state.contact
-    }
-}
 const mapDispatchToProps = {
     sendContacts: sendContacts
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Contacts);
+export default connect(null, mapDispatchToProps)(Contacts);

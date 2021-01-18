@@ -121,8 +121,7 @@ export function sendContacts(data){
 
         request(`${apiUrl}/form`, 'POST', data)
         .then(res =>{
-            console.log(res);
-            dispatch({type: 'SEND_CONTACTS', contacts: res});
+            dispatch({type: 'SEND_CONTACTS'});
         })
         .catch(err =>{
             dispatch({type: 'ERROR', errorMessage: err.message});
