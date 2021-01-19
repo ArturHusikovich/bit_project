@@ -4,7 +4,9 @@
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    width: 1200px;
+}
+.container{
+    max-width: 1200px;
 }
 .rowTop{
     height: 70px;
@@ -36,3 +38,5 @@ h4{
     width: auto;
     border-radius: 10px;
 }
+
+
