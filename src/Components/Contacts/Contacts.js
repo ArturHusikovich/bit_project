@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Contacts.module.css';
 import { connect } from 'react-redux';
 import { sendContacts } from '../../store/actions';
@@ -9,6 +9,16 @@ const Contacts = (props) => {
                                            message: ''
                                          });
 
+    useEffect(() => {
+        if(props.successMessage === "Contacts are sent!"){
+            setValues({name: '',
+                       email: '',
+                       message: ''})
+        }
+        
+    }, [props.successMessage] );
+
+    
     const changeInput = (event) => {
         const {name, value} = event.target;
         
@@ -20,11 +30,8 @@ const Contacts = (props) => {
 
     const submit = () => {
         props.sendContacts(values);
-        setValues({name: '',
-                   email: '',
-                   message: ''})
     }
-
+    
     return (
         <div className={styles.main}>
             <input type="text" 
@@ -53,8 +60,13 @@ const Contacts = (props) => {
     )
 }
 
+const mapStateToProps = (state) => {
+    return {
+        successMessage: state.successMessage
+    }
+}
 const mapDispatchToProps = {
     sendContacts: sendContacts
 }
 
-export default connect(null, mapDispatchToProps)(Contacts);
+export default connect(mapStateToProps, mapDispatchToProps)(Contacts);
