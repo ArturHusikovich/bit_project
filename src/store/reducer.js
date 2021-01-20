@@ -4,6 +4,7 @@ const defaultState = {
     successMessage: null,
     addTaskStatus: false,
     editTaskStatus: false,
+    sendContactsSuccess: false,
     loading: false,
     removeTasksSuccess: false,
     removeTaskSuccess: false,
@@ -147,6 +148,7 @@ const defaultState = {
         case "SEND_CONTACTS": {
           return {
             ...state,
+            sendContactsSuccess: !state.sendContactsSuccess,
             successMessage: "Contacts are sent!",
             loading: false
           }

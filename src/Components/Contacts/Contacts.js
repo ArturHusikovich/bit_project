@@ -10,13 +10,11 @@ const Contacts = (props) => {
                                          });
 
     useEffect(() => {
-        if(props.successMessage === "Contacts are sent!"){
             setValues({name: '',
                        email: '',
                        message: ''})
-        }
         
-    }, [props.successMessage] );
+    }, [props.sendContactsSuccess] );
 
     
     const changeInput = (event) => {
@@ -62,7 +60,7 @@ const Contacts = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        successMessage: state.successMessage
+        sendContactsSuccess: state.sendContactsSuccess
     }
 }
 const mapDispatchToProps = {
